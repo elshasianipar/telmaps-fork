@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\MapLayer;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<MapLayer>
@@ -15,13 +16,13 @@ class MapLayerFactory extends Factory
      *
      * @return array<string, mixed>
      */
-        public function definition(): array
+    public function definition(): array
     {
         $name = fake()->words(3, true);
 
         return [
             'name' => $name,
-            'slug' => \Illuminate\Support\Str::slug($name),
+            'slug' => Str::slug($name),
             'type' => fake()->randomElement(['geojson', 'tiles', 'wms']),
             'config' => ['opacity' => fake()->randomFloat(2, 0.1, 1.0)],
             'style' => ['color' => '#'.fake()->hexColor()],

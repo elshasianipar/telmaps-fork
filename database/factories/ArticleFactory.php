@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Article>
@@ -15,14 +16,14 @@ class ArticleFactory extends Factory
      *
      * @return array<string, mixed>
      */
-        public function definition(): array
+    public function definition(): array
     {
         $title = fake()->sentence(4);
 
         return [
             'author_id' => User::factory(),
             'title' => $title,
-            'slug' => \Illuminate\Support\Str::slug($title),
+            'slug' => Str::slug($title),
             'excerpt' => fake()->paragraph(2),
             'content' => fake()->paragraphs(5, true),
             'featured_image' => null,

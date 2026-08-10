@@ -6,12 +6,17 @@ use App\Http\Controllers\LandCoverTypeController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MapLayerController;
 use App\Http\Controllers\RegionController;
+use App\Livewire\Admin\AboutManager;
+use App\Livewire\Admin\FaqManager;
+use App\Livewire\Admin\TeamManager;
+use App\Livewire\Auth\LoginPage;
+use App\Livewire\Auth\RegisterPage;
 use Illuminate\Support\Facades\Route;
 
 // Auth (guest only)
 Route::middleware('guest')->group(function () {
-    Route::livewire('/login', 'pages::login-page')->name('login');
-    Route::livewire('/register', 'pages::register-page')->name('register');
+    Route::get('/login', LoginPage::class)->name('login');
+    Route::get('/register', RegisterPage::class)->name('register');
 });
 
 // Logout
@@ -34,6 +39,13 @@ Route::livewire('/articles/{article:slug}', 'pages::article-show')->name('articl
 
 // ===== Admin (admin role only) =====
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::redirect('/', '/admin/about')->name('index');
+
+    // CMS konten (About, Tim, FAQ)
+    Route::get('/about', AboutManager::class)->name('about');
+    Route::get('/teams', TeamManager::class)->name('teams');
+    Route::get('/faq', FaqManager::class)->name('faq');
+
     Route::livewire('/dashboard', 'pages::dashboard-page')->name('dashboard');
     Route::get('/regions', [RegionController::class, 'index'])->name('regions.index');
     Route::view('/regions/create', 'admin.regions-form', ['mode' => 'create'])->name('regions.create');

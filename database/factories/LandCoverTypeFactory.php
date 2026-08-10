@@ -15,11 +15,11 @@ class LandCoverTypeFactory extends Factory
      *
      * @return array<string, mixed>
      */
-        public function definition(): array
+    public function definition(): array
     {
         return [
             'code' => strtoupper(fake()->unique()->bothify('LC-?')),
-                        'name' => fake()->word(),
+            'name' => fake()->word(),
             'color' => '#'.strtoupper(fake()->hexColor()),
             'description' => fake()->sentence(),
             'is_forest' => fake()->boolean(60),

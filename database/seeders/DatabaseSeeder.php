@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(PlatformDataSeeder::class);
+        $this->call(ContentDataSeeder::class);
     }
 }

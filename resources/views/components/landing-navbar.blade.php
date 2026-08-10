@@ -17,6 +17,9 @@
         </div>
 
         <div class="hidden md:flex items-center gap-4">
+            @admin
+                <a href="{{ route('admin.about') }}" class="text-sm font-medium text-white/70 hover:text-lime transition-colors">Admin</a>
+            @endadmin
             <a href="{{ route('map') }}" class="px-5 py-2 bg-lime text-forest text-sm font-semibold rounded-full hover:bg-[#d8ea5a] transition-colors">Platform</a>
         </div>
 
@@ -34,6 +37,9 @@
         <a href="{{ route('faq') }}" class="text-white text-sm font-medium hover:text-lime transition-colors">FAQ</a>
         <a href="{{ route('teams') }}" class="text-white text-sm font-medium hover:text-lime transition-colors">Teams</a>
         <a href="{{ route('home') }}#contact" class="text-white text-sm font-medium hover:text-lime transition-colors">Contact</a>
+        @admin
+            <a href="{{ route('admin.about') }}" class="text-white text-sm font-medium hover:text-lime transition-colors">Admin</a>
+        @endadmin
         <a href="{{ route('map') }}" class="mt-2 px-5 py-2 bg-lime text-forest text-sm font-semibold rounded-full text-center">Let's Talk</a>
     </div>
 </nav>
