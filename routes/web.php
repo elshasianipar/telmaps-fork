@@ -25,6 +25,9 @@ Route::post('/logout', function () {
 
 // ===== Public =====
 Route::view('/', 'landing')->name('home');
+Route::view('/about', 'about')->name('about');
+Route::view('/faq', 'faq')->name('faq');
+Route::view('/teams', 'teams')->name('teams');
 Route::get('/map', [MapController::class, 'show'])->name('map');
 Route::livewire('/articles', 'pages::article-manager')->name('articles.index');
 Route::livewire('/articles/{article:slug}', 'pages::article-show')->name('articles.show');
