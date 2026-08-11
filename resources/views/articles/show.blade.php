@@ -62,7 +62,7 @@
 
     {{-- Body --}}
     @if ($body)
-        <div class="text-bark/85 leading-[1.85] text-[15px] whitespace-pre-line">{{ $body }}</div>
+        <div class="article-body text-bark/85 leading-[1.85] text-[15px]">{!! $body !!}</div>
     @endif
 
     {{-- External link CTA --}}

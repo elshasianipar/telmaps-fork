@@ -8,13 +8,14 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
 
         @fonts
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/tinymce.js'])
         @livewireStyles
 
         <style>
             html, body { height: 100%; }
             body { -webkit-font-smoothing: antialiased; }
             .pos-scroll { scrollbar-width: thin; scrollbar-color: rgba(20,24,26,.16) transparent; }
+            [x-cloak] { display: none !important; }
             .pos-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
             .pos-scroll::-webkit-scrollbar-thumb { background: rgba(20,24,26,.14); border-radius: 4px; }
             .led { box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent); }

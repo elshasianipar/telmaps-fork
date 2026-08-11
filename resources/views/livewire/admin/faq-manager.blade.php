@@ -60,14 +60,14 @@
                 <h3 class="font-fraunces text-lg text-[#14181A]">{{ $editingId ? 'Edit item' : 'Tambah item FAQ' }}</h3>
                 <button wire:click="$set('showModal', false)" type="button" class="text-[#9AA3A0] hover:text-[#14181A] text-xl leading-none">&times;</button>
             </div>
-            <form wire:submit="save" x-data="{ lang: 'id' }" class="px-6 py-5 space-y-4">
+            <form wire:submit="save" x-data="{ lang: 'id', setLang(next) { this.lang = next; this.$nextTick(() => window.dispatchEvent(new Event('resize'))); } }" class="px-6 py-5 space-y-4">
                 <div class="flex items-center gap-2">
-                    <button type="button" @click="lang = 'id'"
+                    <button type="button" @click="setLang('id')"
                             :class="lang === 'id' ? 'bg-[#1C3A14] text-cream' : 'text-[#5C6770] hover:text-[#14181A] border border-[#E3E6E4]'"
                             class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em] rounded-full px-3 py-1.5 transition-colors">
                         Indonesia
                     </button>
-                    <button type="button" @click="lang = 'en'"
+                    <button type="button" @click="setLang('en')"
                             :class="lang === 'en' ? 'bg-[#1C3A14] text-cream' : 'text-[#5C6770] hover:text-[#14181A] border border-[#E3E6E4]'"
                             class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em] rounded-full px-3 py-1.5 transition-colors">
                         English
@@ -82,9 +82,15 @@
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Jawaban *</label>
-                    <textarea x-show="lang === 'id'" wire:model="answer" rows="5" class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
-                    <textarea x-show="lang === 'en'" x-cloak wire:model="answer_en" rows="5" placeholder="Answer (EN)"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    <div wire:ignore x-show="lang === 'id'"
+                         x-data="tinymceField({ id: 'answer', model: @entangle('answer') })">
+                        <textarea id="answer" rows="5" class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
+                    <div wire:ignore x-show="lang === 'en'" x-cloak
+                         x-data="tinymceField({ id: 'answer_en', model: @entangle('answer_en') })">
+                        <textarea id="answer_en" rows="5" placeholder="Answer (EN)"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
                     @error('answer') <p class="text-[#C84A26] text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div class="grid grid-cols-2 gap-4">

@@ -36,7 +36,7 @@
                 </h1>
             @endif
             @if ($about->heroSubtitleFor($lang))
-                <p class="mt-6 text-white/70 text-base md:text-lg max-w-xl leading-relaxed">{{ $about->heroSubtitleFor($lang) }}</p>
+                <p class="mt-6 text-white/70 text-base md:text-lg max-w-xl leading-relaxed">{!! $about->heroSubtitleFor($lang) !!}</p>
             @endif
             <div class="mt-8 flex flex-col sm:flex-row items-center gap-4">
                 <a href="{{ route('map') }}" class="inline-flex items-center justify-center px-8 py-3 bg-lime text-ink text-sm font-semibold rounded-full hover:bg-[#E6652A] transition-colors">{{ $lang === 'en' ? 'Open Platform' : 'Buka Platform' }}</a>
@@ -60,7 +60,7 @@
                         <h2 class="font-fraunces text-4xl md:text-5xl font-normal text-forest leading-tight">{{ $about->storyTitleFor($lang) }}</h2>
                     @endif
                     @if ($about->storyBodyFor($lang))
-                        <p class="mt-6 text-bark/70 leading-relaxed">{{ $about->storyBodyFor($lang) }}</p>
+                        <div class="article-body mt-6 text-bark/70 leading-relaxed">{!! $about->storyBodyFor($lang) !!}</div>
                     @endif
                 </div>
 
@@ -84,13 +84,13 @@
                     @if ($about->missionFor($lang))
                         <div class="rounded-[2rem] border border-forest/15 bg-white p-10 shadow-[0_35px_80px_rgba(23,16,9,0.08)]">
                             <span class="inline-block rounded-full bg-lime/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-lime">Mission</span>
-                            <p class="mt-5 text-bark/80 leading-relaxed">{{ $about->missionFor($lang) }}</p>
+                            <div class="article-body mt-5 text-bark/80 leading-relaxed">{!! $about->missionFor($lang) !!}</div>
                         </div>
                     @endif
                     @if ($about->visionFor($lang))
                         <div class="rounded-[2rem] border border-forest/15 bg-white p-10 shadow-[0_35px_80px_rgba(23,16,9,0.08)]">
                             <span class="inline-block rounded-full bg-lime/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-lime">Vision</span>
-                            <p class="mt-5 text-bark/80 leading-relaxed">{{ $about->visionFor($lang) }}</p>
+                            <div class="article-body mt-5 text-bark/80 leading-relaxed">{!! $about->visionFor($lang) !!}</div>
                         </div>
                     @endif
                 </div>

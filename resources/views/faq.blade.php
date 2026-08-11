@@ -41,7 +41,7 @@
                             <span class="faq-icon shrink-0 w-8 h-8 rounded-full bg-lime/20 text-forest flex items-center justify-center text-lg transition-transform duration-300">+</span>
                         </button>
                         <div class="faq-body px-6 md:px-8 pb-0 max-h-0 overflow-hidden transition-all duration-300">
-                            <p class="text-bark/70 leading-relaxed pb-6 whitespace-pre-line">{{ $item->answerFor($lang) }}</p>
+                            <div class="article-body text-bark/70 leading-relaxed pb-6">{!! $item->answerFor($lang) !!}</div>
                         </div>
                     </div>
                 @endforeach
