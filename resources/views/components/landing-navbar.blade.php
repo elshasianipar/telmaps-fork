@@ -6,8 +6,8 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {{-- Logo --}}
         <a href="{{ route('home') }}#top" class="flex items-center gap-2">
-            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                <img src="{{ asset('img/LOGOTEL.png') }}" alt="TELF Logo" class="w-50">
+            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                <img src="{{ asset('img/LOGOFIRE.png') }}" alt="TELF Logo" class="w-full h-full object-cover rounded-full">
             </div>
         </a>
 

@@ -19,7 +19,7 @@
                 <p class="text-white/50 text-sm leading-relaxed">
                     {{ $lang === 'en'
                         ? 'Satellite-based forest-loss monitoring for Sumatra, from province to village.'
-                        : 'Pemantauan kehilangan hutan berbasis satelit untuk Sumatera, dari provinsi hingga desa.' }}
+                        : 'Pemantauan Kebakaran untuk Sumatera, dari provinsi hingga desa.' }}
                 </p>
             </div>
 
@@ -40,7 +40,6 @@
                 <ul class="space-y-2">
                     <li><a href="{{ route('map') }}" class="text-white/60 text-sm hover:text-white transition-colors">{{ $lang === 'en' ? 'Monitoring map' : 'Peta pemantauan' }}</a></li>
                     <li><a href="{{ route('home') }}#articles" class="text-white/60 text-sm hover:text-white transition-colors">{{ $lang === 'en' ? 'Latest reports' : 'Laporan terbaru' }}</a></li>
-                    <li><a href="{{ route('home') }}#contact" class="text-white/60 text-sm hover:text-white transition-colors">{{ $lang === 'en' ? 'Contact' : 'Kontak' }}</a></li>
                 </ul>
             </div>
 
@@ -50,7 +49,7 @@
                 <ul class="space-y-2 text-white/60 text-sm">
                     <li>Sumatera, Indonesia</li>
                     <li class="pt-1">
-                        <a href="{{ route('home') }}#contact" class="hover:text-white transition-colors">{{ $lang === 'en' ? 'Get in touch' : 'Hubungi kami' }}</a>
+                        <a href="https://www.instagram.com/tamaravta.df?igsh=a2toc2x6Y3F6Nnow&utm_source=qr" target="_blank" rel="noopener" class="hover:text-white transition-colors">{{ $lang === 'en' ? 'Get in touch' : 'Hubungi kami' }}</a>
                     </li>
                 </ul>
             </div>
