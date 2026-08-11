@@ -19,3 +19,81 @@
     --color-amber: #E8A93A;
     --color-water: #3F6B7A;
 }
+
+.article-body > * + * {
+    margin-top: 1.25em;
+}
+
+.article-body p {
+    margin-bottom: 0;
+}
+
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+    color: var(--color-forest);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.article-body h2 {
+    font-size: 1.5rem;
+    margin-top: 2em;
+}
+
+.article-body h3 {
+    font-size: 1.25rem;
+}
+
+.article-body ul,
+.article-body ol {
+    padding-left: 1.25rem;
+}
+
+.article-body ul {
+    list-style: disc;
+}
+
+.article-body ol {
+    list-style: decimal;
+}
+
+.article-body a {
+    color: var(--color-forest);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-sage);
+}
+
+.article-body a:hover {
+    text-decoration-color: var(--color-lime);
+}
+
+.article-body blockquote {
+    border-left: 3px solid var(--color-sage);
+    padding-left: 1rem;
+    color: var(--color-bark);
+    font-style: italic;
+}
+
+.article-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--color-forest) 15%, transparent);
+}
+
+.article-body hr {
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-forest) 15%, transparent);
+}
+
+.article-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    font-size: 0.9em;
+    background: color-mix(in srgb, var(--color-forest) 8%, transparent);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+}
+

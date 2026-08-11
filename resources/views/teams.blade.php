@@ -50,7 +50,7 @@
                                 <p class="text-lime text-sm font-semibold mt-1">{{ $member->roleFor($lang) }}</p>
                             @endif
                             @if ($member->bioFor($lang))
-                                <p class="text-bark/70 text-sm leading-relaxed mt-3">{{ $member->bioFor($lang) }}</p>
+                                <div class="article-body text-bark/70 text-sm leading-relaxed mt-3">{!! $member->bioFor($lang) !!}</div>
                             @endif
                         </div>
                     </div>

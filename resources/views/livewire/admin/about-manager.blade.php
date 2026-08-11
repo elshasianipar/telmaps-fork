@@ -18,16 +18,16 @@
         </div>
     @endif
 
-    <form wire:submit="save" x-data="{ lang: 'id' }" class="space-y-8">
+    <form wire:submit="save" x-data="{ lang: 'id', setLang(next) { this.lang = next; this.$nextTick(() => window.dispatchEvent(new Event('resize'))); } }" class="space-y-8">
 
         {{-- Language tabs --}}
         <div class="flex items-center gap-2">
-            <button type="button" @click="lang = 'id'"
+            <button type="button" @click="setLang('id')"
                     :class="lang === 'id' ? 'bg-[#1C3A14] text-cream' : 'text-[#5C6770] hover:text-[#14181A] border border-[#E3E6E4]'"
                     class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em] rounded-full px-3 py-1.5 transition-colors">
                 Bahasa Indonesia
             </button>
-            <button type="button" @click="lang = 'en'"
+            <button type="button" @click="setLang('en')"
                     :class="lang === 'en' ? 'bg-[#1C3A14] text-cream' : 'text-[#5C6770] hover:text-[#14181A] border border-[#E3E6E4]'"
                     class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em] rounded-full px-3 py-1.5 transition-colors">
                 English
@@ -55,10 +55,16 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Subjudul</label>
-                    <textarea x-show="lang === 'id'" wire:model="hero_subtitle" rows="3" placeholder="Paragraf pengantar singkat…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
-                    <textarea x-show="lang === 'en'" x-cloak wire:model="hero_subtitle_en" rows="3" placeholder="Short intro paragraph (EN)…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    <div wire:ignore x-show="lang === 'id'"
+                         x-data="tinymceField({ id: 'hero_subtitle', model: @entangle('hero_subtitle') })">
+                        <textarea id="hero_subtitle" rows="3" placeholder="Paragraf pengantar singkat…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
+                    <div wire:ignore x-show="lang === 'en'" x-cloak
+                         x-data="tinymceField({ id: 'hero_subtitle_en', model: @entangle('hero_subtitle_en') })">
+                        <textarea id="hero_subtitle_en" rows="3" placeholder="Short intro paragraph (EN)…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Gambar Hero</label>
@@ -91,10 +97,16 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Isi Cerita</label>
-                    <textarea x-show="lang === 'id'" wire:model="story_body" rows="4" placeholder="Paragraf cerita…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
-                    <textarea x-show="lang === 'en'" x-cloak wire:model="story_body_en" rows="4" placeholder="Story paragraph (EN)…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    <div wire:ignore x-show="lang === 'id'"
+                         x-data="tinymceField({ id: 'story_body', model: @entangle('story_body') })">
+                        <textarea id="story_body" rows="4" placeholder="Paragraf cerita…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
+                    <div wire:ignore x-show="lang === 'en'" x-cloak
+                         x-data="tinymceField({ id: 'story_body_en', model: @entangle('story_body_en') })">
+                        <textarea id="story_body_en" rows="4" placeholder="Story paragraph (EN)…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Gambar Cerita</label>
@@ -113,17 +125,29 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Misi</label>
-                    <textarea x-show="lang === 'id'" wire:model="mission" rows="4" placeholder="Pernyataan misi…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
-                    <textarea x-show="lang === 'en'" x-cloak wire:model="mission_en" rows="4" placeholder="Mission statement (EN)…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    <div wire:ignore x-show="lang === 'id'"
+                         x-data="tinymceField({ id: 'mission', model: @entangle('mission') })">
+                        <textarea id="mission" rows="4" placeholder="Pernyataan misi…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
+                    <div wire:ignore x-show="lang === 'en'" x-cloak
+                         x-data="tinymceField({ id: 'mission_en', model: @entangle('mission_en') })">
+                        <textarea id="mission_en" rows="4" placeholder="Mission statement (EN)…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Visi</label>
-                    <textarea x-show="lang === 'id'" wire:model="vision" rows="4" placeholder="Pernyataan visi…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
-                    <textarea x-show="lang === 'en'" x-cloak wire:model="vision_en" rows="4" placeholder="Vision statement (EN)…"
-                              class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    <div wire:ignore x-show="lang === 'id'"
+                         x-data="tinymceField({ id: 'vision', model: @entangle('vision') })">
+                        <textarea id="vision" rows="4" placeholder="Pernyataan visi…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
+                    <div wire:ignore x-show="lang === 'en'" x-cloak
+                         x-data="tinymceField({ id: 'vision_en', model: @entangle('vision_en') })">
+                        <textarea id="vision_en" rows="4" placeholder="Vision statement (EN)…"
+                                  class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none"></textarea>
+                    </div>
                 </div>
             </div>
         </section>

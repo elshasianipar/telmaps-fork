@@ -15,6 +15,37 @@
         slug: '{{ old('slug', $isEdit ? $a?->slug : '') }}',
         title: '{{ old('title', $isEdit ? $a?->title : '') }}',
         preview: '{{ $img ?? '' }}',
+        editors: {},
+        initEditors() {
+            this.$nextTick(() => this.initEditor('content'));
+        },
+        initEditor(id) {
+            if (this.editors[id] || ! document.getElementById(id)) return;
+            this.editors[id] = true;
+            tinymce.init({
+                selector: '#' + id,
+                license_key: 'gpl',
+                skin_url: '/tinymce/skins/ui/oxide',
+                content_css: '/tinymce/skins/content/default/content.css',
+                height: 420,
+                menubar: false,
+                branding: false,
+                promotion: false,
+                plugins: 'autolink lists link code',
+                toolbar: 'undo redo | blocks | bold italic underline strikethrough | bullist numlist | link | code',
+            });
+        },
+        setLang(next) {
+            this.lang = next;
+            this.$nextTick(() => {
+                const id = next === 'id' ? 'content' : 'content_en';
+                this.initEditor(id);
+                window.dispatchEvent(new Event('resize'));
+            });
+        },
+        saveAll() {
+            tinymce.triggerSave();
+        },
         slugify(s) {
             return (s || '').toString().toLowerCase()
                 .replace(/[^a-z0-9\s-]/g, '').trim()
@@ -24,7 +55,7 @@
             const f = e.target.files[0];
             if (f) this.preview = URL.createObjectURL(f);
         }
-    }">
+    }" x-init="initEditors">
 
     {{-- Header --}}
     <div class="flex items-end justify-between gap-4 mb-6">
@@ -44,7 +75,7 @@
     @endif
 
     <form method="POST" action="{{ $isEdit ? route($sec . '.articles.update', $a) : route($sec . '.articles.store') }}"
-          enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-5 items-start">
+          enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-5 items-start" x-on:submit="saveAll">
         @csrf
         @if ($isEdit) @method('PUT') @endif
 
@@ -52,12 +83,12 @@
         <div class="bg-white rounded-2xl border border-[#E3E6E4] p-6 md:p-7 space-y-5">
             {{-- Language tabs --}}
             <div class="flex items-center gap-2 border-b border-[#E3E6E4] pb-4">
-                <button type="button" @click="lang = 'id'"
+                <button type="button" @click="setLang('id')"
                         :class="lang === 'id' ? 'bg-[#1C3A14] text-cream' : 'text-[#5C6770] hover:text-[#14181A] border border-[#E3E6E4]'"
                         class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em] rounded-full px-3 py-1.5 transition-colors">
                     Bahasa Indonesia
                 </button>
-                <button type="button" @click="lang = 'en'"
+                <button type="button" @click="setLang('en')"
                         :class="lang === 'en' ? 'bg-[#1C3A14] text-cream' : 'text-[#5C6770] hover:text-[#14181A] border border-[#E3E6E4]'"
                         class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em] rounded-full px-3 py-1.5 transition-colors">
                     English
@@ -79,16 +110,12 @@
                               class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none">{{ old('excerpt', $isEdit ? $a?->excerpt : '') }}</textarea>
                     @error('excerpt') <p class="text-[#C84A26] text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
-                <details class="group">
-                    <summary class="cursor-pointer list-none flex items-center gap-2 text-xs font-medium text-[#5C6770] hover:text-[#14181A]">
-                        <span class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em]">Isi artikel</span>
-                        <span class="text-[#9AA3A0] group-open:rotate-90 transition-transform">›</span>
-                        <span class="text-[#9AA3A0]">opsional · tampil di halaman detail</span>
-                    </summary>
-                    <textarea name="content" rows="6" placeholder="Tulis isi lengkap…"
+                <div>
+                    <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Isi artikel <span class="text-[#9AA3A0]">opsional · tampil di halaman detail</span></label>
+                    <textarea id="content" name="content" rows="6" placeholder="Tulis isi lengkap…"
                               class="mt-2 w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none">{{ old('content', $isEdit ? ($isEdit ? $a?->content : '') : '') }}</textarea>
                     @error('content') <p class="text-[#C84A26] text-xs mt-1">{{ $message }}</p> @enderror
-                </details>
+                </div>
             </div>
 
             {{-- EN fields --}}
@@ -105,16 +132,12 @@
                               class="w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none">{{ old('excerpt_en', $isEdit ? $a?->excerpt_en : '') }}</textarea>
                     @error('excerpt_en') <p class="text-[#C84A26] text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
-                <details class="group">
-                    <summary class="cursor-pointer list-none flex items-center gap-2 text-xs font-medium text-[#5C6770] hover:text-[#14181A]">
-                        <span class="font-jetbrains-mono text-[10px] uppercase tracking-[0.16em]">Article body</span>
-                        <span class="text-[#9AA3A0] group-open:rotate-90 transition-transform">›</span>
-                        <span class="text-[#9AA3A0]">optional · shown on detail page</span>
-                    </summary>
-                    <textarea name="content_en" rows="6" placeholder="Write the full body…"
+                <div>
+                    <label class="block text-xs font-medium text-[#5C6770] mb-1.5">Article body <span class="text-[#9AA3A0]">optional · shown on detail page</span></label>
+                    <textarea id="content_en" name="content_en" rows="6" placeholder="Write the full body…"
                               class="mt-2 w-full rounded-lg border border-[#E3E6E4] bg-[#F4F6F5] px-3 py-2.5 text-sm focus:border-[#1C3A14] focus:ring-2 focus:ring-[#1C3A14]/20 outline-none">{{ old('content_en', $isEdit ? $a?->content_en : '') }}</textarea>
                     @error('content_en') <p class="text-[#C84A26] text-xs mt-1">{{ $message }}</p> @enderror
-                </details>
+                </div>
             </div>
 
             {{-- Slug (shared) --}}
