@@ -28,6 +28,22 @@ class AboutManager extends Component
 
     public ?string $vision = '';
 
+    public ?string $hero_eyebrow_en = '';
+
+    public ?string $hero_title_en = '';
+
+    public ?string $hero_subtitle_en = '';
+
+    public ?string $story_eyebrow_en = '';
+
+    public ?string $story_title_en = '';
+
+    public ?string $story_body_en = '';
+
+    public ?string $mission_en = '';
+
+    public ?string $vision_en = '';
+
     /** Upload sementara (Livewire\TemporaryUploadedFile|null). */
     public $hero_image_upload = null;
 
@@ -50,6 +66,9 @@ class AboutManager extends Component
                 'hero_eyebrow', 'hero_title', 'hero_subtitle', 'hero_image',
                 'story_eyebrow', 'story_title', 'story_body', 'story_image',
                 'mission', 'vision',
+                'hero_eyebrow_en', 'hero_title_en', 'hero_subtitle_en',
+                'story_eyebrow_en', 'story_title_en', 'story_body_en',
+                'mission_en', 'vision_en',
             ]));
             $this->aboutId = $about->id;
         }
@@ -66,6 +85,14 @@ class AboutManager extends Component
             'story_body' => ['nullable', 'string', 'max:2000'],
             'mission' => ['nullable', 'string', 'max:1000'],
             'vision' => ['nullable', 'string', 'max:1000'],
+            'hero_eyebrow_en' => ['nullable', 'string', 'max:80'],
+            'hero_title_en' => ['nullable', 'string', 'max:200'],
+            'hero_subtitle_en' => ['nullable', 'string', 'max:500'],
+            'story_eyebrow_en' => ['nullable', 'string', 'max:80'],
+            'story_title_en' => ['nullable', 'string', 'max:200'],
+            'story_body_en' => ['nullable', 'string', 'max:2000'],
+            'mission_en' => ['nullable', 'string', 'max:1000'],
+            'vision_en' => ['nullable', 'string', 'max:1000'],
             'hero_image_upload' => ['nullable', 'image', 'max:2048'],
             'story_image_upload' => ['nullable', 'image', 'max:2048'],
         ]);

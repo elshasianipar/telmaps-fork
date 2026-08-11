@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $role
  * @property string|null $bio
  * @property string|null $photo
+ * @property string|null $role_en
+ * @property string|null $bio_en
  * @property int $sort_order
  * @property bool $is_active
  */
@@ -24,6 +26,7 @@ class TeamMember extends Model
 
     protected $fillable = [
         'name', 'role', 'bio', 'photo', 'sort_order', 'is_active',
+        'role_en', 'bio_en',
     ];
 
     protected $casts = [
@@ -39,5 +42,32 @@ class TeamMember extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function roleFor(?string $locale): ?string
+    {
+        return $this->localized('role', $locale);
+    }
+
+    public function bioFor(?string $locale): ?string
+    {
+        return $this->localized('bio', $locale);
+    }
+
+    /**
+     * English when available and requested, else Indonesian — mirrors the
+     * articles pattern so the public site falls back gracefully.
+     */
+    protected function localized(string $base, ?string $locale): ?string
+    {
+        if ($locale === 'en') {
+            $en = $this->getAttribute($base.'_en');
+
+            if (filled($en)) {
+                return $en;
+            }
+        }
+
+        return $this->getAttribute($base);
     }
 }

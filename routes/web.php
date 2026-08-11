@@ -5,6 +5,7 @@ use App\Http\Controllers\DeforestationRecordController;
 use App\Http\Controllers\LandCoverTypeController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MapLayerController;
+use App\Http\Controllers\PublicArticleController;
 use App\Http\Controllers\RegionController;
 use App\Livewire\Admin\AboutManager;
 use App\Livewire\Admin\FaqManager;
@@ -29,13 +30,15 @@ Route::post('/logout', function () {
 })->middleware('auth')->name('logout');
 
 // ===== Public =====
-Route::view('/', 'landing')->name('home');
-Route::view('/about', 'about')->name('about');
-Route::view('/faq', 'faq')->name('faq');
-Route::view('/teams', 'teams')->name('teams');
-Route::get('/map', [MapController::class, 'show'])->name('map');
-Route::livewire('/articles', 'pages::article-manager')->name('articles.index');
-Route::livewire('/articles/{article:slug}', 'pages::article-show')->name('articles.show');
+Route::middleware('locale')->group(function () {
+    Route::view('/', 'landing')->name('home');
+    Route::view('/about', 'about')->name('about');
+    Route::view('/faq', 'faq')->name('faq');
+    Route::view('/teams', 'teams')->name('teams');
+    Route::get('/map', [MapController::class, 'show'])->name('map');
+    Route::get('/articles', [PublicArticleController::class, 'index'])->name('articles.index');
+    Route::get('/articles/{article:slug}', [PublicArticleController::class, 'show'])->name('articles.show');
+});
 
 // ===== Admin (admin role only) =====
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -69,7 +72,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::view('/articles/create', 'admin.articles-form', ['mode' => 'create'])->name('articles.create');
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
 
@@ -78,6 +83,8 @@ Route::middleware(['auth', 'role:editor'])->prefix('editor')->name('editor.')->g
     Route::livewire('/dashboard', 'pages::dashboard-page')->name('dashboard');
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::view('/articles/create', 'admin.articles-form', ['mode' => 'create'])->name('articles.create');
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });

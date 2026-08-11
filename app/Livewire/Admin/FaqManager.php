@@ -23,6 +23,10 @@ class FaqManager extends Component
 
     public ?string $category = '';
 
+    public ?string $question_en = '';
+
+    public ?string $answer_en = '';
+
     public int $sort_order = 0;
 
     public bool $is_active = true;
@@ -42,6 +46,8 @@ class FaqManager extends Component
         $this->question = $item->question;
         $this->answer = (string) $item->answer;
         $this->category = (string) $item->category;
+        $this->question_en = (string) $item->question_en;
+        $this->answer_en = (string) $item->answer_en;
         $this->sort_order = (int) $item->sort_order;
         $this->is_active = (bool) $item->is_active;
         $this->showModal = true;
@@ -53,6 +59,8 @@ class FaqManager extends Component
             'question' => ['required', 'string', 'max:200'],
             'answer' => ['required', 'string', 'max:2000'],
             'category' => ['nullable', 'string', 'max:80'],
+            'question_en' => ['nullable', 'string', 'max:200'],
+            'answer_en' => ['nullable', 'string', 'max:2000'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
             'is_active' => ['boolean'],
         ]);
@@ -99,6 +107,8 @@ class FaqManager extends Component
         $this->question = '';
         $this->answer = '';
         $this->category = '';
+        $this->question_en = '';
+        $this->answer_en = '';
         $this->sort_order = 0;
         $this->is_active = true;
         $this->resetErrorBag();

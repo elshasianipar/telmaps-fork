@@ -1,6 +1,6 @@
 @extends('layouts.landing')
 
-@section('title', config('app.name', 'TELF') . ' · Teams')
+@section('title', ($lang === 'en' ? 'Teams' : 'Tim') . ' · TELF')
 
 @php
     $members = \App\Models\TeamMember::active()->ordered()->get();
@@ -9,20 +9,30 @@
 
 @section('content')
     {{-- Hero --}}
-    <section class="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-6 pt-20" style="background-image: linear-gradient(to bottom, rgba(15,33,9,0.6) 0%, rgba(15,33,9,0.55) 55%, rgba(15,33,9,0.85) 100%), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&h=900&fit=crop&auto=format'); background-size: cover; background-position: center;">
-        <p class="text-lime text-sm font-medium tracking-widest uppercase mb-4">Meet the Team</p>
+    <section class="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-6 pt-20" style="background-image: linear-gradient(to bottom, rgba(23,16,9,0.6) 0%, rgba(23,16,9,0.55) 55%, rgba(23,16,9,0.85) 100%), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&h=900&fit=crop&auto=format'); background-size: cover; background-position: center;">
+        <p class="text-lime text-sm font-medium tracking-widest uppercase mb-4">{{ $lang === 'en' ? 'Meet the Team' : 'Kenali Tim' }}</p>
         <h1 class="font-fraunces text-5xl md:text-7xl text-cream font-normal leading-tight max-w-4xl">
-            Orang-orang di balik<br><em class="not-italic">TELF.</em>
+            {!! $lang === 'en'
+                ? 'The people behind<br><em class="not-italic">TELF.</em>'
+                : 'Orang-orang di balik<br><em class="not-italic">TELF.</em>' !!}
         </h1>
         <p class="mt-6 text-white/70 text-base md:text-lg max-w-xl leading-relaxed">
-            Tim geospasial, analis, dan peneliti yang mengubah data satelit menjadi alat bantu pemantauan hutan yang dapat ditelusuri.
+            {{ $lang === 'en'
+                ? 'Geospatial experts, analysts, and researchers turning satellite data into a traceable forest-monitoring tool.'
+                : 'Tim geospasial, analis, dan peneliti yang mengubah data satelit menjadi alat bantu pemantauan hutan yang dapat ditelusuri.' }}
         </p>
     </section>
 
     {{-- Team grid --}}
     <section class="max-w-7xl mx-auto px-6 py-24">
         @if ($members->isEmpty())
-            <p class="text-center text-bark/60">Belum ada anggota tim.</p>
+            @include('partials.empty-state', [
+                'eyebrow' => $lang === 'en' ? 'Team members' : 'Anggota Tim',
+                'title' => $lang === 'en' ? 'No data yet.' : 'Belum ada data.',
+                'hint' => $lang === 'en'
+                    ? 'Team member profiles have not been added yet. The team introduction is coming soon.'
+                    : 'Profil anggota tim belum ditambahkan. Nantikan pengenalan tim segera.',
+            ])
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($members as $member)
@@ -36,11 +46,11 @@
                         </div>
                         <div class="p-6">
                             <h3 class="font-fraunces text-xl text-forest">{{ $member->name }}</h3>
-                            @if ($member->role)
-                                <p class="text-lime text-sm font-semibold mt-1">{{ $member->role }}</p>
+                            @if ($member->roleFor($lang))
+                                <p class="text-lime text-sm font-semibold mt-1">{{ $member->roleFor($lang) }}</p>
                             @endif
-                            @if ($member->bio)
-                                <p class="text-bark/70 text-sm leading-relaxed mt-3">{{ $member->bio }}</p>
+                            @if ($member->bioFor($lang))
+                                <p class="text-bark/70 text-sm leading-relaxed mt-3">{{ $member->bioFor($lang) }}</p>
                             @endif
                         </div>
                     </div>

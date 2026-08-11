@@ -26,6 +26,10 @@ class TeamManager extends Component
 
     public ?string $bio = '';
 
+    public ?string $role_en = '';
+
+    public ?string $bio_en = '';
+
     public ?string $photo = '';
 
     public $photo_upload = null;
@@ -49,6 +53,8 @@ class TeamManager extends Component
         $this->name = $member->name;
         $this->role = (string) $member->role;
         $this->bio = (string) $member->bio;
+        $this->role_en = (string) $member->role_en;
+        $this->bio_en = (string) $member->bio_en;
         $this->photo = (string) $member->photo;
         $this->sort_order = (int) $member->sort_order;
         $this->is_active = (bool) $member->is_active;
@@ -62,6 +68,8 @@ class TeamManager extends Component
             'name' => ['required', 'string', 'max:120'],
             'role' => ['nullable', 'string', 'max:120'],
             'bio' => ['nullable', 'string', 'max:1000'],
+            'role_en' => ['nullable', 'string', 'max:120'],
+            'bio_en' => ['nullable', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
             'is_active' => ['boolean'],
             'photo_upload' => ['nullable', 'image', 'max:2048'],
@@ -71,6 +79,8 @@ class TeamManager extends Component
             'name' => $validated['name'],
             'role' => $validated['role'],
             'bio' => $validated['bio'],
+            'role_en' => $validated['role_en'],
+            'bio_en' => $validated['bio_en'],
             'sort_order' => $validated['sort_order'],
             'is_active' => $validated['is_active'],
         ];
@@ -121,6 +131,8 @@ class TeamManager extends Component
         $this->name = '';
         $this->role = '';
         $this->bio = '';
+        $this->role_en = '';
+        $this->bio_en = '';
         $this->photo = '';
         $this->photo_upload = null;
         $this->sort_order = 0;

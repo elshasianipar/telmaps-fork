@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $question
  * @property string $answer
  * @property string|null $category
+ * @property string|null $question_en
+ * @property string|null $answer_en
  * @property int $sort_order
  * @property bool $is_active
  */
@@ -23,6 +25,7 @@ class FaqItem extends Model
 
     protected $fillable = [
         'question', 'answer', 'category', 'sort_order', 'is_active',
+        'question_en', 'answer_en',
     ];
 
     protected $casts = [
@@ -38,5 +41,32 @@ class FaqItem extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function questionFor(?string $locale): string
+    {
+        return $this->localized('question', $locale);
+    }
+
+    public function answerFor(?string $locale): string
+    {
+        return $this->localized('answer', $locale);
+    }
+
+    /**
+     * English when available and requested, else Indonesian — mirrors the
+     * articles pattern so the public site falls back gracefully.
+     */
+    protected function localized(string $base, ?string $locale): ?string
+    {
+        if ($locale === 'en') {
+            $en = $this->getAttribute($base.'_en');
+
+            if (filled($en)) {
+                return $en;
+            }
+        }
+
+        return $this->getAttribute($base);
     }
 }
